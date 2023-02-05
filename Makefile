@@ -40,7 +40,7 @@ all: axf
 
 $(BUILD_DIR)version.c: $(BUILD_DIR)tag
 	git describe --tag --always --dirty | \
-		sed 's/.*/const char* Version_GetGitVersion(void) { return "&"; }/' > $@
+		sed 's/.*/const char* Version_GetGitVersion(void) { return "v0.6.0"; }/' > $@
 
 # Always regenerate the git version
 .PHONY: $(BUILD_DIR)version.c
