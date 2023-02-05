@@ -49,9 +49,7 @@ extern uint8_t editbmp[];
 extern uint8_t f3editbmp[];
 
 // No version.c file generated for LPCXpresso builds, fall back to this
-__attribute__((weak)) const char* Version_GetGitVersion(void) {
-	return "no version info";
-}
+const char* Version_GetGitVersion(void) { return "v0.6.0"; }
 
 static char* format_about = \
 "\nT-962-controller open source firmware (%s)" \
@@ -624,8 +622,15 @@ static int32_t Main_Work(void) {
 		len = snprintf(buf, sizeof(buf), "%s", Reflow_GetProfileName());
 		LCD_disp_str((uint8_t*)buf, len, LCD_ALIGN_CENTER(len), 8 * 6, FONT6X6 | INVERT);
 
-		len = snprintf(buf,sizeof(buf), "OVEN TEMPERATURE %d`", Reflow_GetActualTemp());
-		LCD_disp_str((uint8_t*)buf, len, LCD_ALIGN_CENTER(len), 64 - 6, FONT6X6);
+    len = snprintf(buf,sizeof(buf), "HOT:%d`", Reflow_GetActualTemp());
+		LCD_disp_str((uint8_t*)buf, len, 0, 64 - 6, FONT6X6);
+
+    if (Sensor_IsValid(TC_COLD_JUNCTION)) {
+			len = snprintf(buf, sizeof(buf), "COLD:%3.1f`", Sensor_GetTemp(TC_COLD_JUNCTION));
+		} else {
+			len = snprintf(buf, sizeof(buf), "---");
+		}
+		LCD_disp_str((uint8_t*)buf, len, 66, 64 - 6, FONT6X6);
 
 		// Make sure reflow complete beep is silenced when pressing any key
 		if (keyspressed) {
