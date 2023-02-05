@@ -49,7 +49,9 @@ extern uint8_t editbmp[];
 extern uint8_t f3editbmp[];
 
 // No version.c file generated for LPCXpresso builds, fall back to this
-const char* Version_GetGitVersion(void) { return "v0.6.0"; }
+__attribute__((weak)) const char* Version_GetGitVersion(void) {
+  return "no version info";
+}
 
 static char* format_about = \
 "\nT-962-controller open source firmware (%s)" \
