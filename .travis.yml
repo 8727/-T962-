@@ -1,0 +1,28 @@
+language: c
+
+before_install:
+  - sudo add-apt-repository -y ppa:team-gcc-arm-embedded/ppa
+  - sudo apt-get update -qq
+
+install:
+  - sudo apt-get install gcc-arm-embedded
+
+script:
+  - make all
+
+notifications:
+  email: false
+
+git:
+  depth: 10
+  
+deploy:
+  provider: releases
+  api-key:
+    secure: RYGBzgLnsjZ8JGjuZhor+lRVTvPYpm2QVccDyLf5Mr9cPhoOpULa6RhNkzdRAltJxoTlA7AS6l8ZpHIKyjMysFKC5pu8VJHWNdGvnrVURs4ML0qXUCPw2epDztTIdH2tMbkKI86Ov8EAmdvvR0GakEvkzC2z+rwPzGK95k3ovX4=
+  file: "build/T-962-controller.hex"
+  skip_cleanup: true
+  on:
+    tags: true
+    all_branches: true
+    repo: UnifiedEngineering/T-962-improvements
